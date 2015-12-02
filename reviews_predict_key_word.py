@@ -1,0 +1,63 @@
+from nltk.tokenize import TweetTokenizer
+import string
+from stop_words import get_stop_words
+from nltk.stem import WordNetLemmatizer
+import gensim
+import nltk
+from nltk.corpus import wordnet as wn
+
+key_words = [line[:-1] for line in open("high_frequency_words.txt")][1:]
+key_bigrams = [line[:-1] for line in open("high_frequency_bigrams.txt")][1:]
+
+
+infile = open("test_review.txt")
+reviews = ' '.join([line for line in infile])
+
+
+# Preprocessing the input reviews
+# clean and tokenize document string
+raw = reviews.lower()
+tokenizer = TweetTokenizer()
+tokens = tokenizer.tokenize(raw)
+
+# remove punctuations
+no_punc_tokens = [i for i in tokens if (not i in string.punctuation+string.digits) and (not "." in i)]
+
+# remove stop words from tokens
+en_stop = get_stop_words('en')
+stopped_tokens = [i for i in no_punc_tokens if not i in en_stop]
+
+# stem tokens
+#stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") if "V" in nltk.pos_tag(i) else wordnet_lemmatizer.lemmatize(i) 
+                  #for i in stopped_tokens ] 
+wordnet_lemmatizer = WordNetLemmatizer()
+stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") for i in stopped_tokens ] 
+stemmed_tokens = [wordnet_lemmatizer.lemmatize(i) for i in stemmed_tokens ] 
+
+# Generate bi-gram
+bi_grams = [i for i in nltk.bigrams(stemmed_tokens)]
+bi_grams_sentence = [' '.join(s) for s in bi_grams]
+
+
+chosen_key_words = []
+key_words_dict = dict.fromkeys(key_words, 0)
+# Predict topics
+for t in key_words:
+    syn = set()
+    for synset in wn.synsets(t):
+        for lemma in synset.lemmas():
+            syn.add(' '.join(lemma.name().split("_")))
+    for w in stemmed_tokens:
+        if w in syn:
+            key_words_dict[t] += 1
+
+for t in bi_grams_sentence:
+    if str(t) in key_bigrams:
+        chosen_key_words.append(str(t))
+        break
+
+for d in sorted(zip(key_words_dict.values(), key_words_dict.keys()))[:-5:-1]:
+    chosen_key_words.append(d[1])
+
+
+print chosen_key_words
