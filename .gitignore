@@ -1,4 +1,9 @@
+# yelp dataset, it is too big
 yelp_dataset/*
+
+# to avoid some heavy libraries
+reverse-recommendation/lib/*
+
+# some really ugly file I hate
 *.pyc
 .DS_Store
-yelp_api/Auth.py
