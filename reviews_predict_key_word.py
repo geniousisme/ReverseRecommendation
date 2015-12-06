@@ -6,13 +6,28 @@ import gensim
 import nltk
 from nltk.corpus import wordnet as wn
 
-key_words = [line[:-1] for line in open("high_frequency_words.txt")][1:]
-key_bigrams = [line[:-1] for line in open("high_frequency_bigrams.txt")][1:]
+#General keyword
+key_words = [line[:-1] for line in open("keyword_map_general.txt")]
+#key_bigrams = [line[:-1] for line in open("high_frequency_bigrams.txt")][1:]
 
+#Build keyword map
+key_map = {}
+for k in key_words:
+    a = k.split(", ")
+    key_map[a[0]] = a[1]
+
+#Special keyword
+special_words = [line[:-1] for line in open("keyword_map_special.txt")]
+#Build keyword map
+special_map = {}
+for k in special_words:
+    a = k.split(", ")
+    special_map[a[0]] = a[1]
 
 infile = open("test_review.txt")
 reviews = ' '.join([line for line in infile])
 
+print "Finish reading text"
 
 # Preprocessing the input reviews
 # clean and tokenize document string
@@ -35,29 +50,51 @@ stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") for i in stopped_toke
 stemmed_tokens = [wordnet_lemmatizer.lemmatize(i) for i in stemmed_tokens ] 
 
 # Generate bi-gram
-bi_grams = [i for i in nltk.bigrams(stemmed_tokens)]
-bi_grams_sentence = [' '.join(s) for s in bi_grams]
+# bi_grams = [i for i in nltk.bigrams(stemmed_tokens)]
+# bi_grams_sentence = [' '.join(s) for s in bi_grams]
 
+print "Finish preprocessing text"
 
 chosen_key_words = []
-key_words_dict = dict.fromkeys(key_words, 0)
+
+# Search in general key word
+key_words_dict = dict.fromkeys(key_map.values(), 0)
 # Predict topics
-for t in key_words:
+for t in key_map.keys():
     syn = set()
     for synset in wn.synsets(t):
         for lemma in synset.lemmas():
             syn.add(' '.join(lemma.name().split("_")))
     for w in stemmed_tokens:
         if w in syn:
-            key_words_dict[t] += 1
+            key_words_dict[key_map[t]] += 1
 
-for t in bi_grams_sentence:
-    if str(t) in key_bigrams:
-        chosen_key_words.append(str(t))
-        break
+# for t in bi_grams_sentence:
+#     if str(t) in key_bigrams:
+#         chosen_key_words.append(str(t))
+#         break
 
-for d in sorted(zip(key_words_dict.values(), key_words_dict.keys()))[:-5:-1]:
+for d in sorted(zip(key_words_dict.values(), key_words_dict.keys()))[:-4:-1]:
     chosen_key_words.append(d[1])
 
+# Search in special keyword
+special_words_dict = dict.fromkeys(special_map.values(), 0)
+# Predict topics
+for t in special_map.keys():
+    syn = set()
+    for synset in wn.synsets(t):
+        for lemma in synset.lemmas():
+            syn.add(' '.join(lemma.name().split("_")))
+    for w in stemmed_tokens:
+        if w in syn:
+            special_words_dict[special_map[t]] += 1
+
+# for t in bi_grams_sentence:
+#     if str(t) in key_bigrams:
+#         chosen_key_words.append(str(t))
+#         break
+
+for d in sorted(zip(special_words_dict.values(), special_words_dict.keys()))[:-3:-1]:
+    chosen_key_words.append(d[1])
 
 print chosen_key_words
