@@ -9,7 +9,6 @@ from nltk.corpus import wordnet as wn
 #General keyword
 key_words = [line[:-1] for line in open("keyword_map_general.txt")]
 #key_bigrams = [line[:-1] for line in open("high_frequency_bigrams.txt")][1:]
-
 #Build keyword map
 key_map = {}
 for k in key_words:
@@ -59,7 +58,8 @@ chosen_key_words = []
 
 # Search in general key word
 key_words_dict = dict.fromkeys(key_map.values(), 0)
-# Predict topics
+# Select keyword using wordnet
+"""
 for t in key_map.keys():
     syn = set()
     for synset in wn.synsets(t):
@@ -68,6 +68,13 @@ for t in key_map.keys():
     for w in stemmed_tokens:
         if w in syn:
             key_words_dict[key_map[t]] += 1
+"""
+
+# Select keyword use only key word to select
+s = set(stemmed_tokens)
+for t in key_map.keys():
+    if t in s:
+        key_words_dict[key_map[t]] += 1
 
 # for t in bi_grams_sentence:
 #     if str(t) in key_bigrams:
@@ -75,11 +82,13 @@ for t in key_map.keys():
 #         break
 
 for d in sorted(zip(key_words_dict.values(), key_words_dict.keys()))[:-4:-1]:
-    chosen_key_words.append(d[1])
+    if d[0] > 0:
+        chosen_key_words.append(d[1])
 
 # Search in special keyword
 special_words_dict = dict.fromkeys(special_map.values(), 0)
-# Predict topics
+#  Select keyword using wordnet
+"""
 for t in special_map.keys():
     syn = set()
     for synset in wn.synsets(t):
@@ -88,6 +97,13 @@ for t in special_map.keys():
     for w in stemmed_tokens:
         if w in syn:
             special_words_dict[special_map[t]] += 1
+"""
+
+# Select keyword use only key word to select
+s = set(stemmed_tokens)
+for t in special_map.keys():
+    if t in s:
+        special_words_dict[special_map[t]] += 1
 
 # for t in bi_grams_sentence:
 #     if str(t) in key_bigrams:
@@ -95,6 +111,7 @@ for t in special_map.keys():
 #         break
 
 for d in sorted(zip(special_words_dict.values(), special_words_dict.keys()))[:-3:-1]:
-    chosen_key_words.append(d[1])
+    if d[0] > 0:
+        chosen_key_words.append(d[1])
 
 print chosen_key_words
