@@ -42,11 +42,11 @@ en_stop = get_stop_words('en')
 stopped_tokens = [i for i in no_punc_tokens if not i in en_stop]
 
 # stem tokens
-#stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") if "V" in nltk.pos_tag(i) else wordnet_lemmatizer.lemmatize(i) 
-                  #for i in stopped_tokens ] 
+#stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") if "V" in nltk.pos_tag(i) else wordnet_lemmatizer.lemmatize(i)
+                  #for i in stopped_tokens ]
 wordnet_lemmatizer = WordNetLemmatizer()
-stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") for i in stopped_tokens ] 
-stemmed_tokens = [wordnet_lemmatizer.lemmatize(i) for i in stemmed_tokens ] 
+stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") for i in stopped_tokens ]
+stemmed_tokens = [wordnet_lemmatizer.lemmatize(i) for i in stemmed_tokens ]
 
 # Generate bi-gram
 # bi_grams = [i for i in nltk.bigrams(stemmed_tokens)]
