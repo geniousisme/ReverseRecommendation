@@ -7,20 +7,20 @@ import nltk
 from nltk.corpus import wordnet as wn
 
 #General keyword
-key_words = [line[:-1] for line in open("keyword_map_general.txt")]
+#key_words = [line[:-1] for line in open("keyword_map_general.txt")]
 #key_bigrams = [line[:-1] for line in open("high_frequency_bigrams.txt")][1:]
 #Build keyword map
 key_map = {}
-for k in key_words:
-    a = k.split(", ")
+for k in open("keyword_map_general.txt"):
+    a = k.strip().split(", ")
     key_map[a[0]] = a[1]
 
 #Special keyword
-special_words = [line[:-1] for line in open("keyword_map_special.txt")]
+#special_words = [line[:-1] for line in open("keyword_map_special.txt")]
 #Build keyword map
 special_map = {}
-for k in special_words:
-    a = k.split(", ")
+for k in open("keyword_map_special.txt"):
+    a = k.strip().split(", ")
     special_map[a[0]] = a[1]
 
 infile = open("test_review.txt")
@@ -45,8 +45,8 @@ stopped_tokens = [i for i in no_punc_tokens if not i in en_stop]
 #stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") if "V" in nltk.pos_tag(i) else wordnet_lemmatizer.lemmatize(i) 
                   #for i in stopped_tokens ] 
 wordnet_lemmatizer = WordNetLemmatizer()
-stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") for i in stopped_tokens ] 
-stemmed_tokens = [wordnet_lemmatizer.lemmatize(i) for i in stemmed_tokens ] 
+#stemmed_tokens = [wordnet_lemmatizer.lemmatize(i, pos="v") for i in stopped_tokens ] 
+stemmed_tokens = [wordnet_lemmatizer.lemmatize(i) for i in stopped_tokens ] 
 
 # Generate bi-gram
 # bi_grams = [i for i in nltk.bigrams(stemmed_tokens)]
