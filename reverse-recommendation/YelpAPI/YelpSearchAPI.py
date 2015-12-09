@@ -23,14 +23,23 @@ import sys
 import urllib
 import urllib2
 
+from pprint import pprint
+
 from Auth import CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET
+from KeyWord.KeyWord import keywords_search
 
 API_HOST = 'api.yelp.com'
 DEFAULT_TERM = 'dinner'
-DEFAULT_LOCATION = 'San Francisco, CA'
+DEFAULT_LOCATION = 'New York, NY'
 SEARCH_LIMIT = 10
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
+
+reviews ="""
+I am a regular customer and today I bought their special, lamb on spine and ribs, for $9.75.  I have enjoyed this dish before at Xi'an, but today there was virtually no meat on the bones.  When I brought it back, they refused to exchange it, saying I had already eaten it.  Well, it's true I had bitten into the assortment of bones to try and find some meat.  I then had an argument with the owner on the phone, who insisted that he could not exchange the special due to his store policy, which is not to take back any dish that has been eaten.
+It's not as if I ate a dish of noodles and tried to return an empty tray.  I brought back the bones and gristle, which was most of the dish.
+Why would you want to treat a regular customer, or any customer for that matter, this way?  I had never before returned a dish, and was actually on friendly terms with the young owner.   Maybe he should have given me the benefit of the doubt, since he was not even there.  Instead, he has lost a customer and gotten this bad review.
+"""
 
 def request(host, path, url_params=None):
     """Prepares OAuth authentication and sends the request to the API.
@@ -139,10 +148,13 @@ def query_api(term, location):
 
 def query_result():
     try:
-        return query_api(DEFAULT_TERM, DEFAULT_LOCATION)
+        # infile = open("KeyWord/doc/test_review.txt", 'r')
+        # reviews = infile.read()
+        keywords = keywords_search(reviews)
+        return query_api(keywords, DEFAULT_LOCATION)
     except urllib2.HTTPError as error:
         sys.exit(
             'Encountered HTTP error {0}. Abort program.'.format(error.code))
 
 if __name__ == '__main__':
-    query_result()
+    pprint(query_result(), indent=2)

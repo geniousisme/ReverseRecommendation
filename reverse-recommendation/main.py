@@ -43,8 +43,8 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        # self.render_json(query_result())
-        self.render("index.html")
+        self.render_json(query_result())
+        # self.render("index.html")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
