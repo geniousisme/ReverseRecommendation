@@ -31,7 +31,7 @@ from KeyWord.KeyWord import keywords_search
 API_HOST = 'api.yelp.com'
 DEFAULT_TERM = 'dinner'
 DEFAULT_LOCATION = 'New York, NY'
-SEARCH_LIMIT = 10
+SEARCH_LIMIT = 5
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
 
@@ -120,6 +120,7 @@ def query_api(term, location):
         term (str): The search term to query.
         location (str): The location of the business to query.
     """
+    top5_responses = []
     response = search(term, location)
 
     businesses = response.get('businesses')
@@ -128,17 +129,17 @@ def query_api(term, location):
         print u'No businesses for {0} in {1} found.'.format(term, location)
         return
 
-    i = 0
-    # for i in xrange(SEARCH_LIMIT):
-    business_id = businesses[i]['id']
+    # i = 0
+    for i in xrange(min(SEARCH_LIMIT, len(businesses))):
+        business_id = businesses[i]['id']
 
-    print u'{0} businesses found, querying business info ' \
-        'for the top result "{1}" ...'.format(
-            len(businesses), business_id)
-    response = get_business(business_id)
-
-    print u'Result for business "{0}" found:'.format(business_id)
-    return response
+        # # print u'{0} businesses found, querying business info ' \
+        # #     'for the top result "{1}" ...'.format(
+        #         len(businesses), business_id)
+        # response = get_business(business_id)
+        top5_responses.append(get_business(business_id))
+        # print u'Result for business "{0}" found:'.format(business_id)
+    return top5_responses
 
 def query_result(review):
     try:
