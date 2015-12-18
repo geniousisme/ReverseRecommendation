@@ -40,16 +40,16 @@ h1 {
   margin-top: 0;
   letter-spacing: .3rem;
 }
-#polina button { 
+#polina button {
   display: block;
   width: 80%;
   padding: .4rem;
-  border: none; 
-  margin: 1rem auto; 
+  border: none;
+  margin: 1rem auto;
   font-size: 1.3rem;
   background: rgba(255,255,255,0.23);
   color: #fff;
-  border-radius: 3px; 
+  border-radius: 3px;
   cursor: pointer;
   -webkit-transition: .3s background;
           transition: .3s background;
@@ -65,42 +65,21 @@ a {
   background:rgba(0,0,0,0.5);
   padding: .5rem;
   -webkit-transition: .6s background;
-          transition: .6s background; 
+          transition: .6s background;
 }
 a:hover{
   background:rgba(0,0,0,0.9);
 }
-@media screen and (max-width: 500px) { 
-  div{width:70%;} 
+@media screen and (max-width: 500px) {
+  div{width:70%;}
 }
 @media screen and (max-device-width: 800px) {
   html { background: url(/assets/img/variousways.png) #000 no-repeat center center fixed; }
   #bgvid { display: none; }
 }
 
-
-form {
-    margin-left:auto;
-    margin-right:auto;
-    width: 343px;
-    height: 333px;
-    padding:30px;
-    border: 1px solid rgba(0,0,0,.2);
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    background: rgba(0, 0, 0, 0.5); 
-    -moz-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
-    -webkit-box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
-    box-shadow: 0 0 13px 3px rgba(0,0,0,.5);
-    overflow: hidden;
-}
-
 textarea{
-    background: rgba(255, 255, 255, 0.4) no-repeat scroll 16px 16px; 
+    background: rgba(255, 255, 255, 0.4) no-repeat scroll 16px 16px;
     width: 350px;
     height: 400px;
     max-height: 400px;
@@ -110,7 +89,7 @@ textarea{
     border-radius: 4px;
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
-    background-clip: padding-box; 
+    background-clip: padding-box;
     display:block;
     font-family: 'Source Sans Pro', sans-serif;
     font-size:18px;
@@ -123,8 +102,7 @@ textarea{
     overflow-y: scroll;
 }
 
-
-input.message {
+input.review {
     background: rgba(255, 255, 255, 0.4) no-repeat scroll 16px 16px;
     padding-left:45px;
 }
@@ -133,22 +111,22 @@ input.message {
     color: #fff;
 }
 
-:-moz-placeholder{ 
-    color: #fff; 
+:-moz-placeholder{
+    color: #fff;
 }
 
 ::-moz-placeholder {
     color: #fff;
 }
 
-:-ms-input-placeholder {  
-    color: #fff; 
+:-ms-input-placeholder {
+    color: #fff;
 }
 
-input:focus, textarea:focus { 
+input:focus, textarea:focus {
     background-color: rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
     -webkit-box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
     box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
-    overflow: hidden; 
+    overflow: hidden;
 }
